@@ -1,63 +1,13 @@
 package db
 
 import (
-	"context"
 	"errors"
 	"fmt"
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type Star struct {
-	gorm.Model
-	ID        uint
-	Name      string
-	SolarMas uint
-}
-
-type Planet struct {
-	gorm.Model
-	ID        uint
-	Name      string
-	Mass      int
-	IsLibable bool
-	StarID    uint `gorm:"constraint:OnDelete:CASCADE;"` //Is not working, o tal vez solo funciona desde el ORM?
-}
-
-// Estos cuentan como DTOs?:
-type StarInput struct {
-	Name      string
-	SolarMass uint
-}
-
-type PlanetInput struct {
-	Name      string
-	Mass      int
-	IsLibable bool
-	StarID    uint
-}
-
-// esto deberia ser una variable de entorno.
-const dsn string = "host=localhost user=postgres password=123456 dbname=SolarSystemsDB2 port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-
-var dbContext = context.Background()
-var db *gorm.DB = (func() *gorm.DB {
-	fmt.Println("Initializing database from IFE")
-
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	db.AutoMigrate(&Star{})
-	db.AutoMigrate(&Planet{})
-
-	return db
-})()
-
 func AddStar(star StarInput) (uint, error) {
-
+	
 	newStar := Star{Name: star.Name, SolarMas: star.SolarMass}
 	createError := gorm.G[Star](db).Create(dbContext, &newStar)
 
@@ -66,7 +16,6 @@ func AddStar(star StarInput) (uint, error) {
 	}
 
 	return newStar.ID, nil
-
 }
 
 func AddPlanetToStar(planet PlanetInput) (uint, error) {
@@ -95,23 +44,7 @@ func AddPlanetToStar(planet PlanetInput) (uint, error) {
 
 }
 
-// Hay alguna forma de no tener que repetir tanto la cracion de estas strucs con casi los mismos campos??
-type PlanetOutput struct {
-	Id        uint   `json:"id"`
-	Name      string `json:"name"`
-	Mass      int    `json:"mass"`
-	IsLibable bool   `json:"isLibable"`
-}
-
-type SolarSystemOutput struct {
-	StarId        uint           `json:"id"`
-	StarName      string         `json:"name"`
-	StarSolarMass uint           `json:"solarMass"`
-	Planets       []PlanetOutput `json:"planets"`
-}
-
 func GetSolarSystem(starId uint64) (SolarSystemOutput, error) {
-
 	star, starError := gorm.G[Star](db).Where("id = ?", starId).First(dbContext)
 
 	var solarSystem SolarSystemOutput
@@ -192,11 +125,10 @@ func DeleteSolarSystem(starId uint64) error {
 
 }
 
-
 func UpdateStar(starId uint64, starBodyData StarInput) (int, error) {
 
 	updatedStar := Star{
-		Name:      starBodyData.Name,
+		Name:     starBodyData.Name,
 		SolarMas: starBodyData.SolarMass,
 	}
 
@@ -204,26 +136,20 @@ func UpdateStar(starId uint64, starBodyData StarInput) (int, error) {
 	return gorm.G[Star](db).Where("id = ?", starId).Updates(dbContext, updatedStar)
 }
 
-type UpdatePlanetInput struct {
-	Name      string
-	Mass      int
-	IsLibable *bool
-}
-
 func UpdatePlanet(planetId uint64, planetBodyData UpdatePlanetInput) (int, error) {
 
 	updatedPlanet := Planet{
-		Name:      planetBodyData.Name,
-		Mass:      planetBodyData.Mass,
+		Name: planetBodyData.Name,
+		Mass: planetBodyData.Mass,
 	}
 
 	if planetBodyData.IsLibable == nil {
 		fmt.Println("Omitiendo IsLibable: ")
 		//Omit hace que sean omitidas las claves espesificadas en sus argumentos
 		//Si no se pone star id se setearia a 0 lo cual cambiaria el planeta a una estrella enexistente.
-		return gorm.G[Planet](db).Where("id = ?", planetId).Omit("is_libable", "star_id").Updates(dbContext, updatedPlanet)	
+		return gorm.G[Planet](db).Where("id = ?", planetId).Omit("is_libable", "star_id").Updates(dbContext, updatedPlanet)
 	}
-	
+
 	fmt.Println("Tomando en consideracion IsLibable")
 	updatedPlanet.IsLibable = *planetBodyData.IsLibable
 	//En este caso los zero values como false si son actualizados.
