@@ -7,7 +7,6 @@ import (
 
 func main() {
     router := gin.Default()
-	//A futuro podria (deberia) dividir los endpoints en dos grupos, estrellas y planetas.
 	//Star Endpoints:
 	router.POST("stars", endpoints.AddStar)
 	router.GET("stars/:id", endpoints.GetSolarSystem)

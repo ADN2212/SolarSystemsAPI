@@ -15,5 +15,5 @@ type Planet struct {
 	Name      string
 	Mass      int
 	IsLibable bool
-	StarID    uint `gorm:"constraint:OnDelete:CASCADE;"` //Is not working, o tal vez solo funciona desde el ORM?
+	StarID    uint `gorm:"constraint:OnDelete:CASCADE;"`
 }

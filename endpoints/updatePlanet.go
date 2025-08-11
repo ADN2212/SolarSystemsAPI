@@ -8,7 +8,6 @@ import (
 	"strconv"
 )
 
-//Este endpoint no recisve starId para que no se pueda mover un planeta de una estrella a otra o no dejarlo como un planeta errante.
 func UpdatePlanet(ctx *gin.Context) {
 
 	planetId, parseErr := strconv.ParseUint(ctx.Param("id"), 10, 32)

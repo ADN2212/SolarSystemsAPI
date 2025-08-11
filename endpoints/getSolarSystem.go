@@ -8,8 +8,7 @@ import (
 )
 
 func GetSolarSystem(ctx *gin.Context) {
-
-	//Queda penidiente investigar como transformar esto a un uint : /
+	
 	starId, parseErr := strconv.ParseUint(ctx.Param("id"), 10, 32)
 
 	if parseErr != nil {

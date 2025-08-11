@@ -1,6 +1,5 @@
 package db
 
-// Hay alguna forma de no tener que repetir tanto la cracion de estas strucs con casi los mismos campos ??
 type PlanetOutput struct {
 	Id        uint   `json:"id"`
 	Name      string `json:"name"`

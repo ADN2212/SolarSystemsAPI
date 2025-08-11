@@ -8,7 +8,6 @@ import (
 	"strconv"
 )
 
-// Como cada planeta tiene su propio id no es necesario espesificar el id de la estrella de la que se removera el planeta.
 func RemovePlanetFromStar(ctx *gin.Context) {
 	planetId, parseErr := strconv.ParseUint(ctx.Param("id"), 10, 32)
 

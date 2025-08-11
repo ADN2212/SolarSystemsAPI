@@ -39,7 +39,6 @@ func AddPlanetToStar(planet PlanetInput) (uint, error) {
 		return 0, createError
 	}
 
-	//Si la query es exitosa el ID se agrega al newPlanet a travez del puntero.
 	return newPlanet.ID, nil
 
 }
@@ -101,14 +100,12 @@ func RemovePlanetFromStar(planetId uint64) error {
 
 func DeleteSolarSystem(starId uint64) error {
 
-	//Esta es la Generics API
 	star, starError := gorm.G[Star](db).Where("id = ?", starId).First(dbContext)
 
 	if starError != nil {
 		return fmt.Errorf("there is no star whit id = %d", starId)
 	}
 
-	//Esta es la Tradicional API (Deberia usar una de las dos, no las dos ligadas dude : |)
 	deleteStarError := db.Unscoped().Delete(&star).Error
 
 	if deleteStarError != nil {
@@ -132,7 +129,6 @@ func UpdateStar(starId uint64, starBodyData StarInput) (int, error) {
 		SolarMas: starBodyData.SolarMass,
 	}
 
-	//Updates actuliza solo los nom zeros values.
 	return gorm.G[Star](db).Where("id = ?", starId).Updates(dbContext, updatedStar)
 }
 
@@ -144,15 +140,10 @@ func UpdatePlanet(planetId uint64, planetBodyData UpdatePlanetInput) (int, error
 	}
 
 	if planetBodyData.IsLibable == nil {
-		fmt.Println("Omitiendo IsLibable: ")
-		//Omit hace que sean omitidas las claves espesificadas en sus argumentos
-		//Si no se pone star id se setearia a 0 lo cual cambiaria el planeta a una estrella enexistente.
 		return gorm.G[Planet](db).Where("id = ?", planetId).Omit("is_libable", "star_id").Updates(dbContext, updatedPlanet)
 	}
 
-	fmt.Println("Tomando en consideracion IsLibable")
 	updatedPlanet.IsLibable = *planetBodyData.IsLibable
-	//En este caso los zero values como false si son actualizados.
 	return gorm.G[Planet](db).Where("id = ?", planetId).Select("naem", "mass", "is_libable").Updates(dbContext, updatedPlanet)
 
 }
