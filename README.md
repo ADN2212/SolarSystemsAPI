@@ -18,16 +18,16 @@ As mentioned, the API consists of two main entities:
 
 ### **stars**
 - **POST**: Receives the data for a new star in the request body, adds it to the database, and returns the ID of the newly created star.  
-Example request body:
 ```json
+//Example request body:
 {
     "name": "Proxima A",
     "solarMass": 10
 }
 ```
 - **GET**: Receives the star's ID via the URL and returns a solar system from the database (a star with its orbiting planets).  
-Example response body:
 ```json
+//Example response body:
 {
     "id": 1,
     "name": "Sol",
@@ -49,8 +49,8 @@ Example response body:
 ### +planets
 
 - **POST**: Receives the data for a new planet in the request body, adds it to the database, and links it to the specified star. Returns the planet's ID.  
-Example request body:
 ```json
+Example request body:
 {
     "name": "Jupiter",
     "mass": 30,
