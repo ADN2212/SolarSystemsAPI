@@ -23,6 +23,6 @@ func AddStar(ctx *gin.Context) {
 		return
 	}
 
-	ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"starId": newSatarId})
+	ctx.IndentedJSON(http.StatusCreated, gin.H{"starId": newSatarId})
 
 }
