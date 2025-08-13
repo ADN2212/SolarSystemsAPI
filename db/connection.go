@@ -9,9 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// esto deberia ser una variable de entorno.
-const dsn string = "host=localhost user=postgres password=123456 dbname=SolarSystemsDB2 port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-
 var dbContext = context.Background()
 
 var db *gorm.DB = (func() *gorm.DB {
