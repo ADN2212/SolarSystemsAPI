@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"solarsystems.com/db"
 	"strconv"
+	"solarsystems.com/IO"
 )
 
 func UpdateStar(ctx *gin.Context) {
@@ -16,7 +17,7 @@ func UpdateStar(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": parseErr.Error()})
 	}
 
-	var starBodyData Star
+	var starBodyData IO.StarInput
 
 	err := ctx.BindJSON(&starBodyData)
 	if err != nil {
@@ -24,7 +25,7 @@ func UpdateStar(ctx *gin.Context) {
 		return
 	}
 
-	updatedRows, updateError := db.UpdateStar(starId, db.StarInput{
+	updatedRows, updateError := db.UpdateStar(starId, IO.StarInput{
 		Name:      starBodyData.Name,
 		SolarMass: starBodyData.SolarMass,
 	})

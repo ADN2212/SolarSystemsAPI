@@ -4,11 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"solarsystems.com/db"
+	"solarsystems.com/IO"
 )
 
 func AddStar(ctx *gin.Context) {
 
-	var newSatar Star
+	var newSatar IO.StarInput
 
 	err := ctx.BindJSON(&newSatar)
 	if err != nil {
@@ -16,7 +17,7 @@ func AddStar(ctx *gin.Context) {
 		return
 	}
 
-	newSatarId, createdError := db.AddStar(db.StarInput{Name: newSatar.Name, SolarMass: newSatar.SolarMass})
+	newSatarId, createdError := db.AddStar(IO.StarInput{Name: newSatar.Name, SolarMass: newSatar.SolarMass})
 
 	if createdError != nil {
 		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message": createdError.Error()})

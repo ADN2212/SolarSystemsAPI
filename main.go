@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	envErr := godotenv.Load(".env")
 
 	if envErr != nil {
@@ -17,7 +16,7 @@ func main() {
 	} else {
 		fmt.Println(".env file loaded succesfully")
 	}
-
+	
 	router := gin.Default()
 	//Star Endpoints:
 	router.POST("stars", endpoints.AddStar)
@@ -36,6 +35,6 @@ func main() {
 		fmt.Println("PORT not found, setting to 8080")
 		port = "8080"
 	}
-
+	
 	router.Run(fmt.Sprintf("localhost:%s", port))
 }

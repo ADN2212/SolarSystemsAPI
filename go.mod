@@ -6,6 +6,7 @@ replace solarsystems.com/endpoints => ./endpoints
 
 require (
 	github.com/gin-gonic/gin v1.10.1
+	github.com/joho/godotenv v1.5.1
 	solarsystems.com/endpoints v0.0.0-00010101000000-000000000000
 )
 
@@ -27,7 +28,6 @@ require (
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
@@ -47,7 +47,10 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/postgres v1.6.0 // indirect
 	gorm.io/gorm v1.30.1 // indirect
+	solarsystems.com/IO v0.0.0-00010101000000-000000000000 // indirect
 	solarsystems.com/db v0.0.0-00010101000000-000000000000 // indirect
 )
 
 replace solarsystems.com/db => ./db
+
+replace solarsystems.com/IO => ./IO

@@ -4,11 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"solarsystems.com/db"
+	"solarsystems.com/IO"
 )
 
 func AddPlanetToStar(ctx *gin.Context) {
 
-	var newPlanet Planet
+	var newPlanet IO.PlanetInput
 
 	err := ctx.BindJSON(&newPlanet)
 	if err != nil {
@@ -16,11 +17,11 @@ func AddPlanetToStar(ctx *gin.Context) {
 		return
 	}
 
-	newPlanetId, createError := db.AddPlanetToStar(db.PlanetInput{
+	newPlanetId, createError := db.AddPlanetToStar(IO.PlanetInput{
 		Name:      newPlanet.Name,
 		Mass:      newPlanet.Mass,
 		IsLibable: newPlanet.IsLibable,
-		StarID:    newPlanet.StarId,
+		StarId:    newPlanet.StarId,
 	})
 
 	if createError != nil {

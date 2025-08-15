@@ -1,11 +1,11 @@
-package endpoints
+package IO
 
-type Star struct {
+type StarInput struct {
 	Name      string `json:"name" binding:"required"`
 	SolarMass uint   `json:"solarMass" binding:"required"`
 }
 
-type Planet struct {
+type PlanetInput struct {
 	Name      string `json:"name" binding:"required"`
 	Mass      int    `json:"mass" binding:"required"`
 	IsLibable bool   `json:"isLibable" binding:"required"`
@@ -17,3 +17,7 @@ type UpdatePlanetInput struct {
 	Mass      int    `json:"mass"`
 	IsLibable *bool   `json:"isLibable"`
 }
+
+
+
+

@@ -22,7 +22,7 @@ func RemovePlanetFromStar(ctx *gin.Context) {
 		return
 	}
 
-	ctx.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Planet id = %v delete succesfully", planetId)})
+	ctx.IndentedJSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Planet id = %v deleted succesfully", planetId)})
 
 }
 

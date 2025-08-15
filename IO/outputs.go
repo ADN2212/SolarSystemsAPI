@@ -1,4 +1,4 @@
-package db
+package IO
 
 type PlanetOutput struct {
 	Id        uint   `json:"id"`
@@ -13,4 +13,3 @@ type SolarSystemOutput struct {
 	StarSolarMass uint           `json:"solarMass"`
 	Planets       []PlanetOutput `json:"planets"`
 }
-

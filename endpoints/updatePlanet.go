@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"solarsystems.com/db"
 	"strconv"
+	"solarsystems.com/IO"
 )
 
 func UpdatePlanet(ctx *gin.Context) {
@@ -16,7 +17,7 @@ func UpdatePlanet(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": parseErr.Error()})
 	}
 
-	var planetBodyData UpdatePlanetInput
+	var planetBodyData  IO.UpdatePlanetInput
 
 	err := ctx.BindJSON(&planetBodyData)
 	if err != nil {
@@ -24,7 +25,7 @@ func UpdatePlanet(ctx *gin.Context) {
 		return
 	}
 
-	updatedRows, updateError := db.UpdatePlanet(planetId, db.UpdatePlanetInput{
+	updatedRows, updateError := db.UpdatePlanet(planetId, IO.UpdatePlanetInput{
 		Name:      planetBodyData.Name,
 		Mass:      planetBodyData.Mass,
 		IsLibable: planetBodyData.IsLibable,
