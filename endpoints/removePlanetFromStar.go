@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"solarsystems.com/db"
+	"solarsystems.com/DB"
 	"strconv"
 )
 
@@ -15,7 +15,7 @@ func RemovePlanetFromStar(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": parseErr.Error()})
 	}
 
-	deleteError := db.RemovePlanetFromStar(planetId)
+	deleteError := DB.RemovePlanetFromStar(planetId)
 
 	if deleteError != nil {
 		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message": deleteError.Error()})

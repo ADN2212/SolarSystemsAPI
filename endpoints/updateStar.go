@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"solarsystems.com/db"
+	"solarsystems.com/DB"
 	"strconv"
 	"solarsystems.com/IO"
 )
@@ -25,7 +25,7 @@ func UpdateStar(ctx *gin.Context) {
 		return
 	}
 
-	updatedRows, updateError := db.UpdateStar(starId, IO.StarInput{
+	updatedRows, updateError := DB.UpdateStar(starId, IO.StarInput{
 		Name:      starBodyData.Name,
 		SolarMass: starBodyData.SolarMass,
 	})

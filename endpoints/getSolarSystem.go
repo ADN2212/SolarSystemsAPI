@@ -3,7 +3,7 @@ package endpoints
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"solarsystems.com/db"
+	"solarsystems.com/DB"
 	"strconv"
 )
 
@@ -15,7 +15,7 @@ func GetSolarSystem(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": parseErr.Error()})
 	}
 
-	solarSystem, err := db.GetSolarSystem(starId)
+	solarSystem, err := DB.GetSolarSystem(starId)
 	if err != nil {
 		ctx.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return

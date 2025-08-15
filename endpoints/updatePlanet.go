@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"solarsystems.com/db"
+	"solarsystems.com/DB"
 	"strconv"
 	"solarsystems.com/IO"
 )
@@ -25,7 +25,7 @@ func UpdatePlanet(ctx *gin.Context) {
 		return
 	}
 
-	updatedRows, updateError := db.UpdatePlanet(planetId, IO.UpdatePlanetInput{
+	updatedRows, updateError := DB.UpdatePlanet(planetId, IO.UpdatePlanetInput{
 		Name:      planetBodyData.Name,
 		Mass:      planetBodyData.Mass,
 		IsLibable: planetBodyData.IsLibable,

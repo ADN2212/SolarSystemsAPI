@@ -4,8 +4,8 @@ go 1.23.4
 
 require (
 	github.com/gin-gonic/gin v1.10.1
+	solarsystems.com/DB v0.0.0-00010101000000-000000000000
 	solarsystems.com/IO v0.0.0-00010101000000-000000000000
-	solarsystems.com/db v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -49,6 +49,6 @@ require (
 	gorm.io/gorm v1.30.1 // indirect
 )
 
-replace solarsystems.com/db => ../db
-
 replace solarsystems.com/IO => ../IO
+
+replace solarsystems.com/DB => ../DB

@@ -3,7 +3,7 @@ package endpoints
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"solarsystems.com/db"
+	"solarsystems.com/DB"
 	"solarsystems.com/IO"
 )
 
@@ -17,7 +17,7 @@ func AddPlanetToStar(ctx *gin.Context) {
 		return
 	}
 
-	newPlanetId, createError := db.AddPlanetToStar(IO.PlanetInput{
+	newPlanetId, createError := DB.AddPlanetToStar(IO.PlanetInput{
 		Name:      newPlanet.Name,
 		Mass:      newPlanet.Mass,
 		IsLibable: newPlanet.IsLibable,

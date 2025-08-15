@@ -47,10 +47,10 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/postgres v1.6.0 // indirect
 	gorm.io/gorm v1.30.1 // indirect
+	solarsystems.com/DB v0.0.0-00010101000000-000000000000 // indirect
 	solarsystems.com/IO v0.0.0-00010101000000-000000000000 // indirect
-	solarsystems.com/db v0.0.0-00010101000000-000000000000 // indirect
 )
 
-replace solarsystems.com/db => ./db
-
 replace solarsystems.com/IO => ./IO
+
+replace solarsystems.com/DB => ./DB
