@@ -7,10 +7,10 @@ import (
 	"solarsystems.com/IO"
 )
 
-func AddStar(star IO.StarInput) (uint, error) {
+func AddStar(starInput IO.StarInput) (uint, error) {
 	
-	newStar := Star{Name: star.Name, SolarMas: star.SolarMass}
-	createError := gorm.G[Star](db).Create(dbContext, &newStar)
+	newStar := star{Name: starInput.Name, SolarMas: starInput.SolarMass}
+	createError := gorm.G[star](db).Create(dbContext, &newStar)
 
 	if createError != nil {
 		return 0, createError
@@ -19,22 +19,22 @@ func AddStar(star IO.StarInput) (uint, error) {
 	return newStar.ID, nil
 }
 
-func AddPlanetToStar(planet IO.PlanetInput) (uint, error) {
+func AddPlanetToStar(planetInput IO.PlanetInput) (uint, error) {
 
-	_, starError := gorm.G[Star](db).Where("id = ?", planet.StarId).First(dbContext)
+	_, starError := gorm.G[star](db).Where("id = ?", planetInput.StarId).First(dbContext)
 
 	if starError != nil {
-		return 0, fmt.Errorf("there is no star whit id = %d", planet.StarId)
+		return 0, fmt.Errorf("there is no star whit id = %d", planetInput.StarId)
 	}
 
-	newPlanet := Planet{
-		Name:      planet.Name,
-		Mass:      planet.Mass,
-		IsLibable: planet.IsLibable,
-		StarID:    planet.StarId,
+	newPlanet := planet{
+		Name:      planetInput.Name,
+		Mass:      planetInput.Mass,
+		IsLibable: planetInput.IsLibable,
+		StarID:    planetInput.StarId,
 	}
 
-	createError := gorm.G[Planet](db).Create(dbContext, &newPlanet)
+	createError := gorm.G[planet](db).Create(dbContext, &newPlanet)
 
 	if createError != nil {
 		return 0, createError
@@ -45,7 +45,7 @@ func AddPlanetToStar(planet IO.PlanetInput) (uint, error) {
 }
 
 func GetSolarSystem(starId uint64) (IO.SolarSystemOutput, error) {
-	star, starError := gorm.G[Star](db).Where("id = ?", starId).First(dbContext)
+	starResult, starError := gorm.G[star](db).Where("id = ?", starId).First(dbContext)
 
 	var solarSystem IO.SolarSystemOutput
 
@@ -53,11 +53,11 @@ func GetSolarSystem(starId uint64) (IO.SolarSystemOutput, error) {
 		return solarSystem, fmt.Errorf("there is no star whit id = %d", starId)
 	}
 
-	solarSystem.StarId = star.ID
-	solarSystem.StarName = star.Name
-	solarSystem.StarSolarMass = star.SolarMas
+	solarSystem.StarId = starResult.ID
+	solarSystem.StarName = starResult.Name
+	solarSystem.StarSolarMass = starResult.SolarMas
 
-	planets, planetsError := gorm.G[Planet](db).Where("star_id = ?", starId).Find(dbContext)
+	planets, planetsError := gorm.G[planet](db).Where("star_id = ?", starId).Find(dbContext)
 
 	if planetsError != nil {
 		return solarSystem, errors.New("an error happened while searchinf the planets")
@@ -83,7 +83,7 @@ func GetSolarSystem(starId uint64) (IO.SolarSystemOutput, error) {
 
 func RemovePlanetFromStar(planetId uint64) error {
 
-	planet, planetError := gorm.G[Planet](db).Where("id = ?", planetId).First(dbContext)
+	planet, planetError := gorm.G[planet](db).Where("id = ?", planetId).First(dbContext)
 
 	if planetError != nil {
 		return fmt.Errorf("there is no planet whit id = %d", planetId)
@@ -101,7 +101,7 @@ func RemovePlanetFromStar(planetId uint64) error {
 
 func DeleteSolarSystem(starId uint64) error {
 
-	star, starError := gorm.G[Star](db).Where("id = ?", starId).First(dbContext)
+	star, starError := gorm.G[star](db).Where("id = ?", starId).First(dbContext)
 
 	if starError != nil {
 		return fmt.Errorf("there is no star whit id = %d", starId)
@@ -113,7 +113,7 @@ func DeleteSolarSystem(starId uint64) error {
 		return deleteStarError
 	}
 
-	deletePlanetsError := db.Unscoped().Where("star_id", starId).Delete(&Planet{}).Error
+	deletePlanetsError := db.Unscoped().Where("star_id", starId).Delete(&planet{}).Error
 
 	if deletePlanetsError != nil {
 		return deletePlanetsError
@@ -125,26 +125,26 @@ func DeleteSolarSystem(starId uint64) error {
 
 func UpdateStar(starId uint64, starBodyData IO.StarInput) (int, error) {
 
-	updatedStar := Star{
+	updatedStar := star{
 		Name:     starBodyData.Name,
 		SolarMas: starBodyData.SolarMass,
 	}
 
-	return gorm.G[Star](db).Where("id = ?", starId).Updates(dbContext, updatedStar)
+	return gorm.G[star](db).Where("id = ?", starId).Updates(dbContext, updatedStar)
 }
 
 func UpdatePlanet(planetId uint64, planetBodyData IO.UpdatePlanetInput) (int, error) {
 
-	updatedPlanet := Planet{
+	updatedPlanet := planet{
 		Name: planetBodyData.Name,
 		Mass: planetBodyData.Mass,
 	}
 
 	if planetBodyData.IsLibable == nil {
-		return gorm.G[Planet](db).Where("id = ?", planetId).Omit("is_libable", "star_id").Updates(dbContext, updatedPlanet)
+		return gorm.G[planet](db).Where("id = ?", planetId).Omit("is_libable", "star_id").Updates(dbContext, updatedPlanet)
 	}
 
 	updatedPlanet.IsLibable = *planetBodyData.IsLibable
-	return gorm.G[Planet](db).Where("id = ?", planetId).Select("name", "mass", "is_libable").Updates(dbContext, updatedPlanet)
+	return gorm.G[planet](db).Where("id = ?", planetId).Select("name", "mass", "is_libable").Updates(dbContext, updatedPlanet)
 
 }

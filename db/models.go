@@ -2,14 +2,14 @@ package DB
 
 import "gorm.io/gorm"
 
-type Star struct {
+type star struct {
 	gorm.Model
 	ID        uint
 	Name      string
 	SolarMas uint
 }
 
-type Planet struct {
+type planet struct {
 	gorm.Model
 	ID        uint
 	Name      string

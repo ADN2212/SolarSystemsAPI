@@ -32,8 +32,8 @@ var db *gorm.DB = (func() *gorm.DB {
 		panic(err.Error())
 	}
 
-	db.AutoMigrate(&Star{})
-	db.AutoMigrate(&Planet{})
+	db.AutoMigrate(&star{})
+	db.AutoMigrate(&planet{})
 
 	fmt.Println("Successful connection to the database")
 	return db
