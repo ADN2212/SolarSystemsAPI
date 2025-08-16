@@ -9,6 +9,7 @@ require (
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.30.1
 	solarsystems.com/IO v0.0.0-00010101000000-000000000000
+	solarsystems.com/users v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -22,3 +23,5 @@ require (
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 )
+
+replace solarsystems.com/users => ../users

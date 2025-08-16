@@ -34,6 +34,7 @@ var db *gorm.DB = (func() *gorm.DB {
 
 	db.AutoMigrate(&star{})
 	db.AutoMigrate(&planet{})
+	db.AutoMigrate(&user{})
 
 	fmt.Println("Successful connection to the database")
 	return db

@@ -29,6 +29,10 @@ func main() {
 	router.DELETE("planets/:id", endpoints.RemovePlanetFromStar)
 	router.PATCH("planets/:id", endpoints.UpdatePlanet)
 
+	//user endpoints:
+	router.POST("users", endpoints.SingUp)
+
+
 	port := os.Getenv("PORT")
 	
 	if len(port) == 0 {

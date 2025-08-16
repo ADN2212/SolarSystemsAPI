@@ -148,3 +148,20 @@ func UpdatePlanet(planetId uint64, planetBodyData IO.UpdatePlanetInput) (int, er
 	return gorm.G[planet](db).Where("id = ?", planetId).Select("name", "mass", "is_libable").Updates(dbContext, updatedPlanet)
 
 }
+
+func AddUser(userInput IO.UserInput) (uint, error) {
+
+	newUser := user{
+		Username: userInput.UserName,
+		Password: userInput.Password,
+	}
+
+	createError := gorm.G[user](db).Create(dbContext, &newUser)
+
+	if createError != nil {
+		return 0, createError
+	}
+
+	return  newUser.ID, nil
+
+}

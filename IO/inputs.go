@@ -18,6 +18,7 @@ type UpdatePlanetInput struct {
 	IsLibable *bool   `json:"isLibable"`
 }
 
-
-
-
+type UserInput struct {
+	UserName string `json:"userName" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}

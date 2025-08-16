@@ -15,5 +15,11 @@ type planet struct {
 	Name      string
 	Mass      int
 	IsLibable bool
-	StarID    uint `gorm:"constraint:OnDelete:CASCADE;"`
+	StarID    uint `gorm:"constraint:OnDelete:CASCADE;"`//Chekea esto mas detenidamente en la Doc.
+}
+
+type user struct {
+	gorm.Model
+	Username string `gorm:"unique"`
+	Password string
 }

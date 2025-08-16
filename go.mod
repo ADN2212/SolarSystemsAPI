@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/absagar/go-bcrypt v0.0.0-20171215093918-4b100ddf46d7 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
