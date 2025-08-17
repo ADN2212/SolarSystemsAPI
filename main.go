@@ -21,18 +21,18 @@ func main() {
 	router := gin.Default()
 	//Star Endpoints:
 	router.POST("stars", midlewares.RequireAuth, endpoints.AddStar)
-	router.GET("stars/:id", endpoints.GetSolarSystem)
-	router.DELETE("stars/:id", endpoints.DeleteSolarSystem)
-	router.PATCH("stars/:id", endpoints.UpdateStar)
+	router.GET("stars/:id", midlewares.RequireAuth, endpoints.GetSolarSystem)
+	router.DELETE("stars/:id", midlewares.RequireAuth,endpoints.DeleteSolarSystem)
+	router.PATCH("stars/:id", midlewares.RequireAuth, endpoints.UpdateStar)
 
 	//Planet Endpoints:
-	router.POST("planets", endpoints.AddPlanetToStar)
-	router.DELETE("planets/:id", endpoints.RemovePlanetFromStar)
-	router.PATCH("planets/:id", endpoints.UpdatePlanet)
+	router.POST("planets", midlewares.RequireAuth, endpoints.AddPlanetToStar)
+	router.DELETE("planets/:id", midlewares.RequireAuth, endpoints.RemovePlanetFromStar)
+	router.PATCH("planets/:id", midlewares.RequireAuth, endpoints.UpdatePlanet)
 
 	//user endpoints:
 	router.POST("users", endpoints.SingUp)
-	router.GET("users", endpoints.LogIn)//De tipo GET porque se optiene el jwt.
+	router.GET("users", endpoints.LogIn)//Del tipo GET porque se optiene el jwt.
 
 	port := os.Getenv("PORT")
 	
