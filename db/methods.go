@@ -165,3 +165,7 @@ func AddUser(userInput IO.UserInput) (uint, error) {
 	return  newUser.ID, nil
 
 }
+
+func GetUserByUserName(username string) (user, error) {
+	return  gorm.G[user](db).Where("username = ?", username).First(dbContext)
+}

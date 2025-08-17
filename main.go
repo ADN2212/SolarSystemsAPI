@@ -31,7 +31,7 @@ func main() {
 
 	//user endpoints:
 	router.POST("users", endpoints.SingUp)
-
+	router.GET("users", endpoints.LogIn)//De tipo GET porque se optiene el jwt.
 
 	port := os.Getenv("PORT")
 	
