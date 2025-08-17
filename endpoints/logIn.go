@@ -78,10 +78,10 @@ func LogIn(ctx *gin.Context) {
 		return
 	}
 
-	//ctx.IndentedJSON(http.StatusOK, gin.H{"accesToken": tokeStr})
+	ctx.IndentedJSON(http.StatusOK, gin.H{"accesToken": tokeStr})
 
 	//Una maneta alternativa (y recomendada de hacerlo) es a travez de las cookies:
-	ctx.SetSameSite(http.SameSiteLaxMode)	
-	ctx.SetCookie("Authorization", tokeStr, 36000 * 5, "", "", false, true,)
-	ctx.IndentedJSON(http.StatusOK, gin.H{})
+	// ctx.SetSameSite(http.SameSiteLaxMode)	
+	// ctx.SetCookie("Authorization", tokeStr, 36000 * 5, "", "", false, true,)
+	// ctx.IndentedJSON(http.StatusOK, gin.H{})
 }
