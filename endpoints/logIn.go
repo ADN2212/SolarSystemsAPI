@@ -59,7 +59,6 @@ func LogIn(ctx *gin.Context) {
 	passErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userCredentials.Password))
 
 	if passErr != nil {
-		fmt.Println("Here")
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": passErr.Error()})
 		return
 	}
@@ -73,13 +72,11 @@ func LogIn(ctx *gin.Context) {
 	tokeStr, tokenErr := token.SignedString([]byte(secret))//why this methods argument has to be of type []byte
 
 	if tokenErr != nil {
-		fmt.Println("Here-2")
 		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message" : tokenErr.Error()})
 		return
 	}
 
 	ctx.IndentedJSON(http.StatusOK, gin.H{"accesToken": tokeStr})
-
 	//Una maneta alternativa (y recomendada de hacerlo) es a travez de las cookies:
 	// ctx.SetSameSite(http.SameSiteLaxMode)	
 	// ctx.SetCookie("Authorization", tokeStr, 36000 * 5, "", "", false, true,)

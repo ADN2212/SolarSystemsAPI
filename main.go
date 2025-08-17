@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"solarsystems.com/endpoints"
+	"solarsystems.com/middlewares"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	
 	router := gin.Default()
 	//Star Endpoints:
-	router.POST("stars", endpoints.AddStar)
+	router.POST("stars", midlewares.RequireAuth, endpoints.AddStar)
 	router.GET("stars/:id", endpoints.GetSolarSystem)
 	router.DELETE("stars/:id", endpoints.DeleteSolarSystem)
 	router.PATCH("stars/:id", endpoints.UpdateStar)
