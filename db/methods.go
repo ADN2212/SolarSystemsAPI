@@ -8,7 +8,7 @@ import (
 )
 
 func AddStar(starInput IO.StarInput) (uint, error) {
-	
+
 	newStar := star{Name: starInput.Name, SolarMas: starInput.SolarMass}
 	createError := gorm.G[star](db).Create(dbContext, &newStar)
 
@@ -162,10 +162,22 @@ func AddUser(userInput IO.UserInput) (uint, error) {
 		return 0, createError
 	}
 
-	return  newUser.ID, nil
+	return newUser.ID, nil
 
 }
 
 func GetUserByUserName(username string) (user, error) {
-	return  gorm.G[user](db).Where("username = ?", username).First(dbContext)
+	return gorm.G[user](db).Where("username = ?", username).First(dbContext)
+}
+
+// Añade el token a la blaclist para poder comprobar si esta al pasae por el middleware.
+func AddTokenToBlackList(tokenString string) error {
+	newToken := deletedToken{TokenStr: tokenString}
+	err := gorm.G[deletedToken](db).Create(dbContext, &newToken)
+	return err
+}
+
+func TokenIsBlackListed(tokenString string) bool {
+	_, err := gorm.G[deletedToken](db).Where("token_str = ?", tokenString).First(dbContext)
+	return err == nil
 }

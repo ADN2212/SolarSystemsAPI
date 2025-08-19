@@ -1,12 +1,14 @@
 package midlewares
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
-	"github.com/joho/godotenv"
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
+	"github.com/joho/godotenv"
+	"solarsystems.com/DB"
 )
 
 // Estoy repitiendo esta misma logica dentro de LogIn en el endpoints pakage.
@@ -47,6 +49,12 @@ func RequireAuth(ctx *gin.Context) {
 	}
 
 	tokenStr := authHeaderParts[1]
+
+	if DB.TokenIsBlackListed(tokenStr) {
+		fmt.Println("This token is in the black list")
+		ctx.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 
 	token, tokenErr := jwt.Parse(tokenStr, func(token *jwt.Token) (any, error) {
 		return []byte(secret), nil

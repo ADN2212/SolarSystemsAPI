@@ -10,6 +10,7 @@ import (
 	"os"
 	"solarsystems.com/DB"
 	"solarsystems.com/IO"
+	"strings"
 	"time"
 )
 
@@ -24,7 +25,7 @@ var secret = (func() string {
 	secretkey := os.Getenv("SECRET")
 
 	if len(secretkey) == 0 {
-		panic("SECRET not found")	
+		panic("SECRET not found")
 	}
 
 	fmt.Println("SECRET found")
@@ -63,12 +64,11 @@ func LogIn(ctx *gin.Context) {
 		jwt.SigningMethodHS256,
 		jwt.MapClaims{"sub": user.Username,
 			"exp": time.Now().Add(time.Minute * 5).Unix()})
-	
 
 	tokeStr, tokenErr := token.SignedString([]byte(secret))
 
 	if tokenErr != nil {
-		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message" : tokenErr.Error()})
+		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message": tokenErr.Error()})
 		return
 	}
 
@@ -89,7 +89,7 @@ func SingUp(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": "username must have at least 5 characters"})
 		return
 	}
-	
+
 	if len(newUser.Password) < 6 {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": "password must have at least 6 characters"})
 		return
@@ -98,7 +98,7 @@ func SingUp(ctx *gin.Context) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), 10)
 
 	if err != nil {
-		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message" : err.Error()})
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -106,10 +106,24 @@ func SingUp(ctx *gin.Context) {
 	userId, createError := DB.AddUser(newUser)
 
 	if createError != nil {
-		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message" : createError.Error()})
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": createError.Error()})
 		return
-	} 
+	}
 
 	ctx.IndentedJSON(http.StatusCreated, gin.H{"userId": userId})
 }
 
+func Logout(ctx *gin.Context) {
+	//Esto lo gago de manera directa porque para llegar aqui se tuvo que haber pasado por el Middleware.
+	tokenStr := strings.Split(ctx.GetHeader("Authorization"), " ")[1]
+
+	err := DB.AddTokenToBlackList(tokenStr)
+
+	if err != nil {
+		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	ctx.IndentedJSON(http.StatusFound, gin.H{"message": "You are logged out"})
+
+}

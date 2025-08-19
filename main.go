@@ -33,6 +33,7 @@ func main() {
 	//user endpoints:
 	router.POST("users", endpoints.SingUp)
 	router.GET("users", endpoints.LogIn)
+	router.DELETE("users", midlewares.RequireAuth, endpoints.Logout)
 
 	port := os.Getenv("PORT")
 	
