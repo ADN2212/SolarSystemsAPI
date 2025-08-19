@@ -1,19 +1,17 @@
 package midlewares
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"github.com/joho/godotenv"
 	"net/http"
 	"os"
 	"strings"
-	"time"
 )
 
-// Estiy repitiendo esta misma logica dentro de LogIn en el endpoints pakage.
+// Estoy repitiendo esta misma logica dentro de LogIn en el endpoints pakage.
 var secret = (func() string {
-	//fmt.Println("Searching for the secret key")
+	
 	envErr := godotenv.Load(".env")
 
 	if envErr != nil {
@@ -22,25 +20,21 @@ var secret = (func() string {
 
 	secretkey := os.Getenv("SECRET")
 
-	//Ramper la aplicacion si el secret no es hallado
-	//Se pdoria crear una en vez de hacer esto pero no se que tan seguro seria.
 	if len(secretkey) == 0 {
 		panic("SECRET not found")
 	}
-
-	//fmt.Println("SECRET found")
 
 	return secretkey
 
 })()
 
 func RequireAuth(ctx *gin.Context) {
-	fmt.Println("In the auth middleware ..")
+
 	authHeader := ctx.GetHeader("Authorization")
 
 	if len(authHeader) == 0 {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Authorization header is required"})
-		ctx.AbortWithStatus(http.StatusBadRequest) //Sin esto el middleware no detendria la llamada al endpoit de turno.
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
@@ -48,11 +42,9 @@ func RequireAuth(ctx *gin.Context) {
 
 	if len(authHeaderParts) != 2 {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Authorization header is malformed"})
-		ctx.AbortWithStatus(http.StatusBadRequest) //Sin esto el middleware no detendria la llamada al endpoit de turno.
+		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
-
-	//fmt.Println(authHeaderParts)
 
 	tokenStr := authHeaderParts[1]
 
@@ -61,13 +53,12 @@ func RequireAuth(ctx *gin.Context) {
 	})
 
 	if tokenErr != nil {
-		//fmt.Println(tokenErr.Error())
 		ctx.IndentedJSON(http.StatusConflict, gin.H{"message": tokenErr.Error()})
 		ctx.AbortWithStatus(http.StatusConflict)
 		return
 	}
-	
-	_, ok := token.Claims.(jwt.MapClaims) //Invrstigar esta sintaxis
+
+	_, ok := token.Claims.(jwt.MapClaims)
 
 	if ok && token.Valid {
 		ctx.Next()

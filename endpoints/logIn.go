@@ -14,7 +14,7 @@ import (
 )
 
 var secret = (func() string {
-	fmt.Println("Searching for the secret key")
+
 	envErr := godotenv.Load(".env")
 
 	if envErr != nil {
@@ -23,8 +23,6 @@ var secret = (func() string {
 
 	secretkey := os.Getenv("SECRET")
 
-	//Ramper la aplicacion si el secret no es hallado
-	//Se pdoria crear una en vez de hacer esto pero no se que tan seguro seria.
 	if len(secretkey) == 0 {
 		panic("SECRET not found")	
 	}
@@ -46,7 +44,6 @@ func LogIn(ctx *gin.Context) {
 		return
 	}
 
-	//Primero comprobamos que el user exista en la base de datos:
 	user, userError := DB.GetUserByUserName(userCredentials.UserName)
 
 	if userError != nil {
@@ -55,7 +52,6 @@ func LogIn(ctx *gin.Context) {
 		return
 	}
 
-	//Luego comparamos la passqoed en texto plano con la password encriptada:
 	passErr := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userCredentials.Password))
 
 	if passErr != nil {
@@ -69,7 +65,7 @@ func LogIn(ctx *gin.Context) {
 			"exp": time.Now().Add(time.Minute * 5).Unix()})
 	
 
-	tokeStr, tokenErr := token.SignedString([]byte(secret))//why this methods argument has to be of type []byte
+	tokeStr, tokenErr := token.SignedString([]byte(secret))
 
 	if tokenErr != nil {
 		ctx.IndentedJSON(http.StatusInternalServerError, gin.H{"message" : tokenErr.Error()})
@@ -77,8 +73,4 @@ func LogIn(ctx *gin.Context) {
 	}
 
 	ctx.IndentedJSON(http.StatusOK, gin.H{"accesToken": tokeStr})
-	//Una maneta alternativa (y recomendada de hacerlo) es a travez de las cookies:
-	// ctx.SetSameSite(http.SameSiteLaxMode)	
-	// ctx.SetCookie("Authorization", tokeStr, 36000 * 5, "", "", false, true,)
-	// ctx.IndentedJSON(http.StatusOK, gin.H{})
 }
