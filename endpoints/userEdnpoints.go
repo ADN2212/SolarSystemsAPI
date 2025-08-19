@@ -74,3 +74,42 @@ func LogIn(ctx *gin.Context) {
 
 	ctx.IndentedJSON(http.StatusOK, gin.H{"accesToken": tokeStr})
 }
+
+func SingUp(ctx *gin.Context) {
+
+	var newUser IO.UserInput
+
+	err := ctx.BindJSON(&newUser)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	if len(newUser.UserName) < 5 {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": "username must have at least 5 characters"})
+		return
+	}
+	
+	if len(newUser.Password) < 6 {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": "password must have at least 6 characters"})
+		return
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), 10)
+
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message" : err.Error()})
+		return
+	}
+
+	newUser.Password = string(hash)
+	userId, createError := DB.AddUser(newUser)
+
+	if createError != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message" : createError.Error()})
+		return
+	} 
+
+	ctx.IndentedJSON(http.StatusCreated, gin.H{"userId": userId})
+}
+
