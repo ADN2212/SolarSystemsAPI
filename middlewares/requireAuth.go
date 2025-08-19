@@ -66,24 +66,12 @@ func RequireAuth(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusConflict)
 		return
 	}
-
-	claims, ok := token.Claims.(jwt.MapClaims)//Invrstigar esta sintaxis
+	
+	_, ok := token.Claims.(jwt.MapClaims) //Invrstigar esta sintaxis
 
 	if ok && token.Valid {
-		//fmt.Println(claims)
-		//Comprovar que el token no haya expirado:
-		//Al parecer el hecho de que el token este expirado se verifica en la funcion anterior.
-		//Entonces esta parte no sera necesaria.
-		if float64(time.Now().Unix()) > claims["exp"].(float64) {
-			ctx.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "This token has expired."})
-			ctx.AbortWithStatus(http.StatusUnauthorized)
-			return
-		}
-		ctx.Next() //Esta funcion permite que se pase a la siguiente funcion en la ruta.
-		return
+		ctx.Next()
 	} else {
-		//ctx.IndentedJSON(http.StatusUnauthorized, gin.H{})
 		ctx.AbortWithStatus(http.StatusUnauthorized)
-		return
 	}
 }
