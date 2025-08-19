@@ -16,7 +16,7 @@ As mentioned, the API consists of two main entities:
 
 ## Endpoints
 
-### **stars**
+### **STARS**
 - **POST**: Receives the data for a new star in the request body, adds it to the database, and returns the ID of the newly created star.  
 ```json
 "Example request body:"
@@ -46,7 +46,7 @@ As mentioned, the API consists of two main entities:
 
 - **PATCH**: Receives the star's ID via the URL and updates it with the provided data. The request body follows the same structure as the **POST** method for this endpoint.
 
-### +planets
+### **PLANETS**
 
 - **POST**: Receives the data for a new planet in the request body, adds it to the database, and links it to the specified star. Returns the planet's ID.  
 ```json
