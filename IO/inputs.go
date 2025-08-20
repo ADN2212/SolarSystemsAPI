@@ -21,4 +21,5 @@ type UpdatePlanetInput struct {
 type UserInput struct {
 	UserName string `json:"userName" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	Rol string `json:"rol" binding:"required"`
 }

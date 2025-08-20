@@ -1,7 +1,6 @@
 package midlewares
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"strings"

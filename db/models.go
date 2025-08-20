@@ -15,13 +15,14 @@ type planet struct {
 	Name      string
 	Mass      int
 	IsLibable bool
-	StarID    uint `gorm:"constraint:OnDelete:CASCADE;"`//Chekea esto mas detenidamente en la Doc.
+	StarID    uint //`gorm:"constraint:OnDelete:CASCADE;"`// ver: https://gorm.io/docs/constraints.html
 }
 
 type user struct {
 	gorm.Model
 	Username string `gorm:"unique"`
 	Password string
+	Rol string 
 }
 
 //En esta tabla se guardan los tokens cuando un user hace logout

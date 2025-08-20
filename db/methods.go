@@ -151,9 +151,15 @@ func UpdatePlanet(planetId uint64, planetBodyData IO.UpdatePlanetInput) (int, er
 
 func AddUser(userInput IO.UserInput) (uint, error) {
 
+	//Esta validacion se puede hacer desde Gin ?
+	if userInput.Rol != "god" && userInput.Rol != "human" {
+		return 0, errors.New("the rol must be 'god' or 'human'")
+	}
+
 	newUser := user{
 		Username: userInput.UserName,
 		Password: userInput.Password,
+		Rol: userInput.Rol,
 	}
 
 	createError := gorm.G[user](db).Create(dbContext, &newUser)
