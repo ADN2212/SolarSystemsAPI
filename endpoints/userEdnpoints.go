@@ -114,7 +114,6 @@ func SingUp(ctx *gin.Context) {
 }
 
 func Logout(ctx *gin.Context) {
-	//Esto lo gago de manera directa porque para llegar aqui se tuvo que haber pasado por el Middleware.
 	tokenStr := strings.Split(ctx.GetHeader("Authorization"), " ")[1]
 
 	err := DB.AddTokenToBlackList(tokenStr)

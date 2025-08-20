@@ -51,7 +51,6 @@ func RequireAuth(ctx *gin.Context) {
 	tokenStr := authHeaderParts[1]
 
 	if DB.TokenIsBlackListed(tokenStr) {
-		fmt.Println("This token is in the black list")
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
@@ -66,9 +65,7 @@ func RequireAuth(ctx *gin.Context) {
 		return
 	}
 
-	_, ok := token.Claims.(jwt.MapClaims)
-
-	if ok && token.Valid {
+	if token.Valid {
 		ctx.Next()
 	} else {
 		ctx.AbortWithStatus(http.StatusUnauthorized)

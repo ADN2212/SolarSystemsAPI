@@ -170,7 +170,6 @@ func GetUserByUserName(username string) (user, error) {
 	return gorm.G[user](db).Where("username = ?", username).First(dbContext)
 }
 
-// Añade el token a la blaclist para poder comprobar si esta al pasae por el middleware.
 func AddTokenToBlackList(tokenString string) error {
 	newToken := deletedToken{TokenStr: tokenString}
 	err := gorm.G[deletedToken](db).Create(dbContext, &newToken)
