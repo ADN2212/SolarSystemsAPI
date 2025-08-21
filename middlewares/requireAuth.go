@@ -1,9 +1,11 @@
 package midlewares
 
 import (
+	//"fmt"
 	"net/http"
 	"os"
 	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"github.com/joho/godotenv"
@@ -30,7 +32,6 @@ var secret = (func() string {
 })()
 
 func RequireAuth(ctx *gin.Context) {
-
 	authHeader := ctx.GetHeader("Authorization")
 
 	if len(authHeader) == 0 {
@@ -63,8 +64,11 @@ func RequireAuth(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusConflict)
 		return
 	}
+	
+	claims, ok := token.Claims.(jwt.MapClaims)
 
-	if token.Valid {
+	if ok && token.Valid {
+		ctx.Set("username", claims["sub"])
 		ctx.Next()
 	} else {
 		ctx.AbortWithStatus(http.StatusUnauthorized)

@@ -20,10 +20,10 @@ func main() {
 	
 	router := gin.Default()
 	//Star Endpoints:
-	router.POST("stars", midlewares.RequireAuth, endpoints.AddStar)
-	router.GET("stars/:id", midlewares.RequireAuth, endpoints.GetSolarSystem)
-	router.DELETE("stars/:id", midlewares.RequireAuth,endpoints.DeleteSolarSystem)
-	router.PATCH("stars/:id", midlewares.RequireAuth, endpoints.UpdateStar)
+	router.POST("stars", midlewares.RequireAuth, midlewares.RequireGod, endpoints.AddStar)
+	router.GET("stars/:id", midlewares.RequireAuth, midlewares.RequireGod, endpoints.GetSolarSystem)
+	router.DELETE("stars/:id", midlewares.RequireAuth, midlewares.RequireGod, endpoints.DeleteSolarSystem)
+	router.PATCH("stars/:id", midlewares.RequireAuth, midlewares.RequireGod, endpoints.UpdateStar)
 
 	//Planet Endpoints:
 	router.POST("planets", midlewares.RequireAuth, endpoints.AddPlanetToStar)
