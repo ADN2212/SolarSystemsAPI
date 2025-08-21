@@ -36,7 +36,7 @@ var secret = (func() string {
 
 func LogIn(ctx *gin.Context) {
 
-	var userCredentials IO.UserInput
+	var userCredentials IO.UserLoginInput
 
 	err := ctx.BindJSON(&userCredentials)
 
@@ -77,7 +77,7 @@ func LogIn(ctx *gin.Context) {
 
 func SingUp(ctx *gin.Context) {
 
-	var newUser IO.UserInput
+	var newUser IO.UserSinginInput
 
 	err := ctx.BindJSON(&newUser)
 	if err != nil {

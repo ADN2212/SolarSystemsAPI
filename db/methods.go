@@ -149,7 +149,7 @@ func UpdatePlanet(planetId uint64, planetBodyData IO.UpdatePlanetInput) (int, er
 
 }
 
-func AddUser(userInput IO.UserInput) (uint, error) {
+func AddUser(userInput IO.UserSinginInput) (uint, error) {
 
 	//Esta validacion se puede hacer desde Gin ?
 	if userInput.Rol != "god" && userInput.Rol != "human" {
