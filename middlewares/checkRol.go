@@ -36,8 +36,6 @@ func CheckRol(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Println(ctx.Request.RequestURI)
-
 	requestURI := ctx.Request.RequestURI
 
 	isStarsEnpoint := strings.Contains(requestURI, "stars")
