@@ -20,15 +20,15 @@ func main() {
 	
 	router := gin.Default()
 	//Star Endpoints:
-	router.POST("stars", midlewares.RequireAuth, midlewares.RequireGod, endpoints.AddStar)
-	router.GET("stars/:id", midlewares.RequireAuth, midlewares.RequireGod, endpoints.GetSolarSystem)
-	router.DELETE("stars/:id", midlewares.RequireAuth, midlewares.RequireGod, endpoints.DeleteSolarSystem)
-	router.PATCH("stars/:id", midlewares.RequireAuth, midlewares.RequireGod, endpoints.UpdateStar)
+	router.POST("stars", midlewares.RequireAuth, midlewares.CheckRol, endpoints.AddStar)
+	router.GET("stars/:id", midlewares.RequireAuth, midlewares.CheckRol, endpoints.GetSolarSystem)
+	router.DELETE("stars/:id", midlewares.RequireAuth, midlewares.CheckRol, endpoints.DeleteSolarSystem)
+	router.PATCH("stars/:id", midlewares.RequireAuth, midlewares.CheckRol, endpoints.UpdateStar)
 
 	//Planet Endpoints:
-	router.POST("planets", midlewares.RequireAuth, endpoints.AddPlanetToStar)
-	router.DELETE("planets/:id", midlewares.RequireAuth, endpoints.RemovePlanetFromStar)
-	router.PATCH("planets/:id", midlewares.RequireAuth, endpoints.UpdatePlanet)
+	router.POST("planets", midlewares.RequireAuth, midlewares.CheckRol,endpoints.AddPlanetToStar)
+	router.DELETE("planets/:id", midlewares.RequireAuth,midlewares.CheckRol ,endpoints.RemovePlanetFromStar)
+	router.PATCH("planets/:id", midlewares.RequireAuth, midlewares.CheckRol,endpoints.UpdatePlanet)
 
 	//user endpoints:
 	router.POST("users", endpoints.SingUp)
