@@ -8,7 +8,6 @@ import (
 	"strings"
 )
 
-
 func CheckRol(ctx *gin.Context) {
 
 	fmt.Println("In the second middleware")

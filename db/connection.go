@@ -32,10 +32,7 @@ var db *gorm.DB = (func() *gorm.DB {
 		panic(err.Error())
 	}
 
-	db.AutoMigrate(&star{})
-	db.AutoMigrate(&planet{})
-	db.AutoMigrate(&user{})
-	db.AutoMigrate(&deletedToken{})
+	db.AutoMigrate(&star{}, &planet{}, &user{}, &deletedToken{})
 
 	fmt.Println("Successful connection to the database")
 	return db
