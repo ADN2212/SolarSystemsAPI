@@ -82,8 +82,8 @@ As it can bee seen in the example there is a rol key that can be "human" or "god
 This token must be sent in the **Authorization** header of each request using the format `'Bearer ${myJWT}'` (JavaScript string literal syntax).  
 This endpoint works as a **LogIn** method.  
 
-"Example request body:"
 ```json
+"Example request body:"
 {
     "userName": "Manetha5",
     "passWord": "123456"
